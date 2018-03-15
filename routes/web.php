@@ -13,6 +13,7 @@
 
 Route::get('/', 'SiteController@index');
 Route::resource('/sites', 'SiteController');
+Route::get('/sites/{site}/show', 'SiteController@show');
 
 Route::get('login/senhaunica', 'Auth\LoginController@redirectToProvider');
 Route::get('login/senhaunica/callback', 'Auth\LoginController@handleProviderCallback');

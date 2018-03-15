@@ -113,6 +113,10 @@ return [
             'text' => 'Solicitar um Site',
             'url'  => 'sites/create',
         ],
+        [
+            'text' => 'Solicitações',
+            'url'  => 'sites',
+        ],
     ],
 
     /*

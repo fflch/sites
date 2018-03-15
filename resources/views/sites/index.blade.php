@@ -9,7 +9,16 @@
 
 @foreach ($sites as $site)
 
-{{ $site->dominio }}{{ $dnszone }} <br>
+<a href="/sites/{{ $site->id }}/show">{{ $site->dominio }}{{ $dnszone }}</a>
+
+<a href="/sites/{{ $site->id }}/edit">Editar</a>
+
+<form method="POST" action="/sites/{{ $site->id }}">
+{{ csrf_field() }} 
+{{ method_field('delete') }}
+<button type="submit">Apagar</button>
+</form>
+<br>
 
 @endforeach
 
