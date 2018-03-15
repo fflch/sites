@@ -52,7 +52,8 @@ class SiteController extends Controller
      */
     public function show(Site $site)
     {
-        //
+        $dnszone = env('DNSZONE');
+        return view('sites/show', compact('site','dnszone'));
     }
 
     /**
@@ -63,7 +64,8 @@ class SiteController extends Controller
      */
     public function edit(Site $site)
     {
-        //
+        $dnszone = env('DNSZONE');
+        return view('sites/edit', compact('site','dnszone'));
     }
 
     /**
@@ -75,7 +77,9 @@ class SiteController extends Controller
      */
     public function update(Request $request, Site $site)
     {
-        //
+        $site->dominio = $request->dominio;
+        $site->save();
+        return redirect('/');
     }
 
     /**
@@ -86,6 +90,7 @@ class SiteController extends Controller
      */
     public function destroy(Site $site)
     {
-        //
+        $site->delete();
+        return redirect('/');
     }
 }
