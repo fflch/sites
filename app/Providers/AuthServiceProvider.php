@@ -27,8 +27,9 @@ class AuthServiceProvider extends ServiceProvider
 
         # admin 
         Gate::define('admin', function ($user) {
-            $admins_id = explode(',', trim(env('SENHAUNICA_ADMINS')));
-            return in_array($user->codpes, $admins_id);
+            $string_admins = config('solicitasite.admins');
+            $array_admins = explode(',', trim($string_admins));
+            return in_array($user->codpes, $array_admins);
 
         });
 

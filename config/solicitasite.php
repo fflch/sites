@@ -23,6 +23,14 @@ return [
     |   .meu.site.maneiro.com.br
     |   ^ não esquecer do ponto no início
     */
-    'dns_zone' => env("DNSZONE", '')
+    'dns_zone' => env("DNSZONE", ''),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Senha Única e Admins
+    |--------------------------------------------------------------------------
+    |   Número USP dos Administradores separados por vírgula:
+    |   123456,987654,567098
+    */
+    'admins' => env('SENHAUNICA_ADMINS', false)
 ];
