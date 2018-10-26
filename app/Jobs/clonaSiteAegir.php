@@ -32,9 +32,9 @@ class clonaSiteAegir implements ShouldQueue
     public function handle()
     {
       $alvo = $this->alvo;
-      $site_modelo = env('SITE_MODELO');
-      $id_node_bd = env('ID_NODE_BD');
-      $id_node_plataforma = env('ID_NODE_PLATAFORMA');
+      $site_modelo = config('solicitasite.modelo');
+      $id_node_bd = config('solicitasite.id_node_bd');
+      $id_node_plataforma = config('solicitasite.id_node_plataforma');
       //$cliente_email = \Auth::user()->email;
       //$cliente_nome = \Auth::user()->name;
 

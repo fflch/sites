@@ -21,7 +21,7 @@ class criaSiteAegir implements ShouldQueue
      */
     public function __construct($alvo)
     {
-      $this->alvo = $alvo;        
+        $this->alvo = $alvo;
     }
 
     /**
@@ -32,25 +32,25 @@ class criaSiteAegir implements ShouldQueue
     public function handle()
     {
 
-      $dnszone = env('DNSZONE');
-      $alvo = $this->alvo . $dnszone;
-      $site_modelo = env('SITE_MODELO');
-      $id_node_bd = env('ID_NODE_BD');
-      $id_node_plataforma = env('ID_NODE_PLATAFORMA');
+        $dnszone = config('solicitasite.dnszone');
+        $alvo = $this->alvo . $dnszone;
+        $site_modelo = config('solicitasite.modelo');
+        $id_node_bd = config('solicitasite.id_node_bd');
+        $id_node_plataforma = config('solicitasite.id_node_plataforma');
 
-      $client = new Client([
-           'base_uri' => 'http://aegir.fflch.usp.br'
-      ]);
+        $client = new Client([
+            'base_uri' => 'http://aegir.fflch.usp.br'
+        ]);
 
-      $res = $client->request('POST','/aegir/saas/task/', [
-          'form_params' => [
-              'target' => $site_modelo,
-              'type' => 'clone',
-              'options[new_uri]' => $alvo,
-              'options[database]' => $id_node_bd,
-              'options[target_platform]' => $id_node_plataforma,
-              'api-key' => 'ZYODpIU-GhDtTJThA2Z-HQ'
-          ]
-      ]);
+        $res = $client->request('POST', '/aegir/saas/task/', [
+            'form_params' => [
+                'target' => $site_modelo,
+                'type' => 'clone',
+                'options[new_uri]' => $alvo,
+                'options[database]' => $id_node_bd,
+                'options[target_platform]' => $id_node_plataforma,
+                'api-key' => 'ZYODpIU-GhDtTJThA2Z-HQ'
+            ]
+        ]);
     }
 }
