@@ -12,6 +12,13 @@ use App\Jobs\deletaSiteAegir;
 
 class AdminController extends Controller
 {
+    private $dns_zone;
+
+    public function __construct()
+    {
+        $this->dns_zone = config('solicitasite.dns_zone');
+    }
+
     public function listaSites()
     {
         $client = new Client([
@@ -20,7 +27,7 @@ class AdminController extends Controller
         $res = $client->request('GET','/aegir/saas/site.json', ['query' => ['api-key' => 'ZYODpIU-GhDtTJThA2Z-HQ']]);
         $sites_aegir = json_decode($res->getBody());
 
-        $dnszone = env('DNSZONE');
+        $dnszone = $this->dns_zone;
         $sites = Site::all()->sortBy('dominio');
         return view('admin/lista-sites', compact('sites','dnszone','sites_aegir'));
     }
@@ -32,15 +39,15 @@ class AdminController extends Controller
         ]);
         $res = $client->request('GET','/aegir/saas/site.json', ['query' => ['api-key' => 'ZYODpIU-GhDtTJThA2Z-HQ']]);
         $sites_aegir = json_decode($res->getBody());
-        $dnszone = env('DNSZONE');
+        $dnszone = $this->dns_zone;
         $sites = Site::all()->sortBy('dominio');
         return view('admin/lista-todos-sites', compact('sites','dnszone','sites_aegir'));
     }
 
     public function cloneSite(Request $request, Site $site)
     {
-      $dnszone = env('DNSZONE');
-      $alvo = $site->dominio . $dnszone;
+      
+      $alvo = $site->dominio . $this->dns_zone;
       clonaSiteAegir::dispatch($alvo);
 
       $request->session()->flash('alert-info', 'Clonagem do site em andamento');
@@ -49,8 +56,7 @@ class AdminController extends Controller
 
     public function disableSite(Request $request, Site $site)
     {
-      $dnszone = env('DNSZONE');
-      $alvo = $site->dominio . $dnszone;
+      $alvo = $site->dominio . $this->dns_zone;
       desabilitaSiteAegir::dispatch($alvo);
 
       $request->session()->flash('alert-info', 'Desabilitação do site em andamento');
@@ -59,8 +65,7 @@ class AdminController extends Controller
 
     public function enableSite(Request $request, Site $site)
     {
-      $dnszone = env('DNSZONE');
-      $alvo = $site->dominio . $dnszone;
+      $alvo = $site->dominio . $this->dns_zone;
       habilitaSiteAegir::dispatch($alvo);
 
       $request->session()->flash('alert-info', 'Habilitação do site em andamento');
@@ -69,8 +74,7 @@ class AdminController extends Controller
 
     public function deleteSite(Request $request, Site $site)
     {
-      $dnszone = env('DNSZONE');
-      $alvo = $site->dominio . $dnszone;
+      $alvo = $site->dominio . $this->dns_zone;
       deletaSiteAegir::dispatch($alvo);
 
       $request->session()->flash('alert-info', 'Deleção do site em andamento');
