@@ -15,10 +15,10 @@ class Aegir
 
     public function __construct()
     {
-        // variáveis do .env
-        $this->aegir_protocol = env('AEGIR_PROTOCOL');
-        $this->aegir_host = env('AEGIR_HOST');
-        $this->aegir_key = env('AEGIR_KEY');
+        // variáveis em config/aegir.php
+        $this->aegir_protocol = config('aegir.protocol');
+        $this->aegir_host = config('aegir.host');
+        $this->aegir_key = config('aegir.key');
         
         $this->client = new Client([
              'base_uri' => "{$this->aegir_protocol}://{$this->aegir_host}",
