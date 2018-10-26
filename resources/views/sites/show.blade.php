@@ -8,7 +8,7 @@
 @section('content')
 @parent
 
-<h1><a href="http://{{ $site->dominio }}{{ env('DNSZONE') }}" target="_blank">{{ $site->dominio }}{{ env('DNSZONE') }}</a></h1>
+<h1><a href="http://{{ $fqdn }}" target="_blank">{{ $fqdn }}</a></h1>
 
 <div>
     <a href="{{ url()->previous() }}" class="btn btn-primary">Voltar</a>

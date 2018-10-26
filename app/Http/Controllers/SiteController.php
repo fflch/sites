@@ -81,6 +81,10 @@ class SiteController extends Controller
      */
     public function show(Site $site)
     {
+        $data = [
+            //Full Qualified Domain Name
+            'fqdn' => $site->dominio . $this->dns_zone
+        ];
         return view ('sites/show', compact('site'));
     }
 
