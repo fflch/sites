@@ -12,11 +12,13 @@ use App\Aegir\Aegir;
 class SiteController extends Controller
 {
     private $aegir;
+    private $dns_zone;
 
     public function __construct()
     {
         $this->middleware('can:admin');
         $this->aegir = new Aegir;
+        $this->dns_zone = config('solicitasite.dns_zone');
     }
 
     /**
@@ -26,7 +28,7 @@ class SiteController extends Controller
      */
     public function index()
     {
-        $dnszone = env('DNSZONE');
+        $dnszone = $this->dns_zone;
         //$sites = Site::all()->where('owner',\Auth::user()->codpes)->sortBy('dominio');
         $sites = Site::all();
 
@@ -45,8 +47,9 @@ class SiteController extends Controller
      */
     public function create()
     {
-        $dnszone = env('DNSZONE');
-        return view('sites/create', ['dnszone'=>$dnszone]); 
+        $dnszone = $this->dns_zone;
+
+        return view('sites/create', compact('dnszone')); 
     }
 
     /**
