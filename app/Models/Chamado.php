@@ -22,6 +22,10 @@ class Chamado extends Model
     public function site(){
         return $this->belongsTo('App\Models\Site');
     }
+
+    public function files_chamado(){
+        return $this->hasMany('App\Models\FilesChamado');
+    }
     
     public static function status(){
         return [

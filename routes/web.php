@@ -7,6 +7,7 @@ use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\AvisoController;
+use App\Http\Controllers\FilesChamadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +51,4 @@ Route::get('/emails', [EmailController::class, 'emails']);
 # Rotas Avisos
 Route::resource('/avisos', AvisoController::class);
 
-
+Route::resource('/files_chamados', FilesChamadoController::class);

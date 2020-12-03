@@ -16,6 +16,8 @@
     <div class="card bg-light mb-3">
       <div class="card-header">{{ $chamado->user->name }} - {{ Carbon\Carbon::parse($chamado->created_at)->format('d/m/Y H:i') }}</div>
       <div class="card-body">
+        <b>id</b>: {{ $chamado->id }}<br>
+
         <b>site</b>: {{ $chamado->site->dominio.config('sites.dnszone') }} <br>
         <b>status</b>: {{ $chamado->status }}<br>
         <b>tipo</b>: {{ $chamado->tipo }} <br>
@@ -39,6 +41,19 @@
     Não há comentários
 @endforelse
 
+  <div class="form-group">
+    @include('chamados.partials.files')
+  </div>
+
+  <div class="form-group">
+  <br>
+  <b>Arquivos carregados:</b><br>
+  @forelse ($chamado->files_chamado as $file_chamado)
+      <a href="/files_chamados/{{ $file_chamado->id }}"><img width="150px" src="/files_chamados/{{ $file_chamado->id }}"></a>
+  @empty
+    Não há arquivos carregados
+  @endforelse
+  </div>
 
   <form method="POST" role="form" action="{{ route('comentarios.store', [$chamado->id]) }}">
       @csrf
