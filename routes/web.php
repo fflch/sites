@@ -24,7 +24,7 @@ Route::resource('/sites', SiteController::class);
 
 # rotas para chamados
 Route::get('/chamados', [ChamadoController::class, 'admin']);
-Route::get('/chamados/{site}/create', [ChamadoController::class, 'create']);
+//Route::get('/chamados/{site}/create', [ChamadoController::class, 'create']);
 Route::get('/chamados/{site}/', [ChamadoController::class, 'index']);
 Route::post('/chamados/{site}/', [ChamadoController::class, 'store'])->name('chamados.store');
 Route::get('/chamados/{site}/{chamado}', [ChamadoController::class, 'show']);
