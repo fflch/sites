@@ -121,7 +121,7 @@ class SiteController extends Controller
         $site->owner = $user->codpes;
         $site->save();
 
-        Mail::send(new SiteMail($site,$user));
+        Mail::queue(new SiteMail($site,$user));
         $request->session()->flash('alert-info', 'Solicitação em andamento');
         return redirect("/sites/$site->id");
     }
@@ -175,7 +175,7 @@ class SiteController extends Controller
             ]);
 
             $novo_responsavel = $request->owner;
-            Mail::send(new TrocaResponsavelMail($site,$novo_responsavel));
+            Mail::queue(new TrocaResponsavelMail($site,$novo_responsavel));
             $site->owner = $request->owner;
             $request->session()->flash('alert-info','Responsável alterado com sucesso');
             $site->save();
@@ -207,7 +207,7 @@ class SiteController extends Controller
             $numeros_usp = array_map('trim', $numeros_usp);
             $numeros_usp = implode(',',$numeros_usp);
             $site->numeros_usp = $numeros_usp;
-            Mail::send(new NovoAdminMail($site,$novo_admin));
+            Mail::queue(new NovoAdminMail($site,$novo_admin));
             $request->session()->flash('alert-info','Administrador adicionado com sucesso');
         }
 
@@ -221,7 +221,7 @@ class SiteController extends Controller
             $numeros_usp = array_map('trim', $numeros_usp);
             $numeros_usp = implode(',',$numeros_usp);
             $site->numeros_usp = $numeros_usp;
-            Mail::send(new DeletaAdminMail($site,$deleta_admin));
+            Mail::queue(new DeletaAdminMail($site,$deleta_admin));
             $request->session()->flash('alert-info','Administrador removido com sucesso');
         }
 
@@ -230,7 +230,7 @@ class SiteController extends Controller
             $site->status = 'Aprovado - Em Processamento';
             $alvo = $site->dominio . $dnszone;
             instalaSiteAegir::dispatch($alvo);
-            Mail::send(new AprovaSiteMail($site));
+            Mail::queue(new AprovaSiteMail($site));
 
             $request->session()->flash('alert-info','Site aprovado com sucesso');
         }
