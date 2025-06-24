@@ -24,11 +24,6 @@ class Site extends Model
         return $query;
     }
 
-    public function chamados()
-    {
-        return $this->hasMany('App\Models\Chamado');
-    }
-
     public function user(){
         return $this->belongsTo('App\Models\User');
     }

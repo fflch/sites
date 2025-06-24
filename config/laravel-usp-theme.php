@@ -38,11 +38,6 @@ return [
             'can'     => 'admin',
         ],
         [
-            'text' => 'Chamados',
-            'url'  => '/chamados',
-            'can'  => 'admin'
-        ],
-        [
             'text' => 'Emails',
             'url'  => '/emails',
             'can'  => 'admin'
