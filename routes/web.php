@@ -1,9 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\SiteController;
-use App\Http\Controllers\ChamadoController;
-use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\AvisoController;
@@ -22,15 +21,6 @@ use App\Http\Controllers\AvisoController;
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::resource('/sites', SiteController::class);
 
-# rotas para chamados
-Route::get('/chamados', [ChamadoController::class, 'admin']);
-//Route::get('/chamados/{site}/create', [ChamadoController::class, 'create']);
-Route::get('/chamados/{site}/', [ChamadoController::class, 'index']);
-Route::post('/chamados/{site}/', [ChamadoController::class, 'store'])->name('chamados.store');
-Route::get('/chamados/{site}/{chamado}', [ChamadoController::class, 'show']);
-
-# rotas comentários
-Route::post('/comentarios/{chamado}/', [ComentarioController::class, 'store'])->name('comentarios.store');;
 
 # Senha única USP
 Route::get('/login', [LoginController::class, 'redirectToProvider'])->name('login');

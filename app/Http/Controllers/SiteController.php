@@ -6,31 +6,17 @@ use App\Models\Site;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
-use App\Jobs\criaSiteAegir;
-use App\Jobs\desabilitaSiteAegir;
-use App\Jobs\habilitaSiteAegir;
-use App\Jobs\deletaSiteAegir;
-use App\Jobs\instalaSiteAegir;
-use App\Aegir\Aegir;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use App\Mail\SiteMail;
 use App\Mail\AprovaSiteMail;
 use App\Mail\TrocaResponsavelMail;
 use App\Mail\NovoAdminMail;
 use App\Mail\DeletaAdminMail;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Rules\Domain;
 
 class SiteController extends Controller
 {
-    private $aegir;
-
-    public function __construct()
-    {
-        $this->aegir = new Aegir;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -64,7 +50,6 @@ class SiteController extends Controller
 
         foreach($sites as $site){
             if ($site->status != 'Solicitado'){
-                $site->status = $this->aegir->verificaStatus($site->dominio.$dnszone);
                 $site->save();
             }
         }
@@ -137,7 +122,6 @@ class SiteController extends Controller
         $this->authorize('sites.view',$site);
         $dnszone = config('sites.dnszone');
         if ($site->status != 'Solicitado'){
-            $site->status = $this->aegir->verificaStatus($site->dominio.$dnszone);
             $site->save();
         }
         $this->novoToken();
@@ -229,7 +213,6 @@ class SiteController extends Controller
             $this->authorize('admin');
             $site->status = 'Aprovado - Em Processamento';
             $alvo = $site->dominio . $dnszone;
-            instalaSiteAegir::dispatch($alvo);
             Mail::queue(new AprovaSiteMail($site));
 
             $request->session()->flash('alert-info','Site aprovado com sucesso');
@@ -281,7 +264,6 @@ class SiteController extends Controller
         $site->delete();
 
         if ($site->status == "Aprovado - Desabilitado")
-            deletaSiteAegir::dispatch($alvo);
 
         request()->session()->flash('alert-info', 'Deleção do site em andamento.');
         return redirect('/sites');
@@ -329,7 +311,6 @@ class SiteController extends Controller
       $this->authorize('sites.update',$site);
       $dnszone = config('sites.dnszone');
       $alvo = $site->dominio . $dnszone;
-      instalaSiteAegir::dispatch($alvo);
 
       $request->session()->flash('alert-info', 'Criação do site em andamento.');
       return redirect('/sites');
@@ -341,7 +322,6 @@ class SiteController extends Controller
       #$this->authorize('sites.update',$site);
       $dnszone = config('sites.dnszone');
       $alvo = $site->dominio . $dnszone;
-      desabilitaSiteAegir::dispatch($alvo);
 
       $request->session()->flash('alert-info', 'Desabilitação do site em andamento.');
       return redirect('/sites');
@@ -353,7 +333,6 @@ class SiteController extends Controller
       #$this->authorize('sites.update',$site);
       $dnszone = config('sites.dnszone');
       $alvo = $site->dominio . $dnszone;
-      habilitaSiteAegir::dispatch($alvo);
 
       $request->session()->flash('alert-info', 'Habilitação do site em andamento.');
       return redirect('/sites');

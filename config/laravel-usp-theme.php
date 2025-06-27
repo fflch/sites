@@ -23,11 +23,6 @@ return [
 
     'menu' => [
         [
-            'text' => 'Solicitar um Site',
-            'url'  => '/sites/create',
-            'can'  => 'sites.create'
-        ],
-        [
             'text' => 'Meus Sites',
             'url'  => '/sites',
             'can'  => 'sites.create'
@@ -36,11 +31,6 @@ return [
             'text'    => 'Avisos',
             'submenu' => $avisos,
             'can'     => 'admin',
-        ],
-        [
-            'text' => 'Chamados',
-            'url'  => '/chamados',
-            'can'  => 'admin'
         ],
         [
             'text' => 'Emails',
