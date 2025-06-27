@@ -18,9 +18,11 @@
 @stop
 
 @section('footer')
-FFLCH sites
+  @parent
+  FFLCH sites
 @stop
 
 @section('title')
-FFLCH sites
+  @parent
+  FFLCH sites
 @stop

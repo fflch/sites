@@ -6,14 +6,13 @@ use App\Models\Site;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use App\Mail\SiteMail;
 use App\Mail\AprovaSiteMail;
 use App\Mail\TrocaResponsavelMail;
 use App\Mail\NovoAdminMail;
 use App\Mail\DeletaAdminMail;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Rules\Domain;
 
 class SiteController extends Controller
@@ -51,7 +50,6 @@ class SiteController extends Controller
 
         foreach($sites as $site){
             if ($site->status != 'Solicitado'){
-                
                 $site->save();
             }
         }

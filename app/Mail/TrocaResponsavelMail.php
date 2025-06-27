@@ -22,7 +22,7 @@ class TrocaResponsavelMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Site $site, $novo_responsavel)
+    public function __construct($site, $novo_responsavel)
     {
         $this->site = $site;
         $this->novo_responsavel = $novo_responsavel;
@@ -43,7 +43,7 @@ class TrocaResponsavelMail extends Mailable
         if ($user){
             $owner_nusp = $user->codpes;
             $owner_nome = $user->name;
-            array_push($to, $user->email);            
+            array_push($to, $user->email);
         }
         else{
             $owner_nusp = "Usuário ainda não fez login";
@@ -60,7 +60,7 @@ class TrocaResponsavelMail extends Mailable
             $novo_responsavel_nusp = $this->novo_responsavel;
             $novo_responsavel_nome = "Usuário ainda não fez login";
         }
-  
+
         return $this->view('emails.troca_responsavel')
                     ->to($to)
                     ->from(config('mail.from.address'))
