@@ -6,6 +6,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\AvisoController;
+use App\Http\Controllers\DomainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +40,8 @@ Route::get('/emails', [EmailController::class, 'emails']);
 
 # Rotas Avisos
 Route::resource('/avisos', AvisoController::class);
+
+# rota para fornecer listagem dos domínios
+Route::get('/domains', DomainController::class);
 
 
