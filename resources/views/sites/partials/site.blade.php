@@ -14,7 +14,7 @@
 </td>
 
 <td>
-  <b>Responsável:</b> {{ $site->owner }} - {{ \Uspdev\Replicado\Pessoa::dump($site->owner)['nompes'] }} - {{ \Uspdev\Replicado\Pessoa::email($site->owner) }}
+  <b>Responsável:</b> {{ $site->owner }} - {{ $site->responsavel->name ?? '' }} {{ $site->responsavel->email ?? '' }} </b>
 
   <br><br>
   <ul class="list-group">
@@ -50,7 +50,7 @@
         @else
           @php($port = ':8088')
         @endif
-        @if($site->status != "Solicitado" && $site->status != "Aprovado - Em Processamento")
+        @if($site->status != "Solicitado" && $site->status != "Aprovado - Desabilitado")
           <li class="list-group-item">
             <a href="http://{{ $site->dominio }}{{ config('sites.dnszone') }}{{$port}}/loginbytoken/?temp_token={{$hashlogin}}&codpes={{ Auth::user()->codpes }}" class="" target="_blank">
               Logon <i class="fas fa-sign-in-alt"></i>
@@ -73,14 +73,14 @@
                     @csrf
                     @method('patch')
                     <input type="hidden" name="aprovar" value="aprovar">
-                    <button type="submit" class="btn btn-success">Aprovar <i class="fas fa-thumbs-up"></i></button>
+                    <button type="submit" class="btn btn-success">Habilitar <i class="fas fa-thumbs-up"></i></button>
                     </form>
                 </li>
                 <li class="list-group-item">
                     <form method="POST" action="/sites/{{ $site->id }}">
                     @csrf
                     @method('delete')
-                    <button type="submit" class="delete-item btn btn-danger">Deletar <i class="fas fa-trash-alt"></i></button>
+                    <button type="submit" class="delete-item btn btn-danger" onClick="return confirm('Tem certeza que deseja excluir esse site?')">Deletar <i class="fas fa-trash-alt"></i></button>
                     </form>
                 </li>          
             @endif
@@ -103,18 +103,9 @@
                 <form method="POST" action="/sites/{{ $site->id }}">
                 @csrf
                 @method('delete')
-                <button type="submit" class="delete-item btn btn-danger">Deletar <i class="fas fa-trash-alt"></i></button>
+                <button type="submit" class="delete-item btn btn-danger" onClick="return confirm('Tem certeza que deseja excluir esse site?')">Deletar <i class="fas fa-trash-alt"></i></button>
                 </form>
               </li>
-            @elseif ($site->status == "Aprovado - Em Processamento") 
-            <li class="list-group-item">
-                    <form method="POST" action="/sites/{{ $site->id }}">
-                    @csrf
-                    @method('patch')
-                    <input type="hidden" name="voltar_solicitacao" value="voltar_solicitacao">
-                    <button type="submit" class="btn btn-secondary">Voltar Solicitação</button>
-                    </form>
-                </li>
             @endif
         @endcan
 </form>

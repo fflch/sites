@@ -12,6 +12,17 @@ $avisos =  [
     ],
 ];
 
+$right_menu = [
+    [
+        // menu utilizado para views da biblioteca senhaunica-socialite.
+        'key' => 'senhaunica-socialite',
+    ],
+    [
+        'key' => 'laravel-tools',
+    ],
+];
+
+
 return [
 
     'title' => '',
@@ -37,6 +48,12 @@ return [
             'url'  => '/emails',
             'can'  => 'admin'
         ],
+        [
+            'text' => 'Solicitar site',
+            'url' => '/sites/create',
+            'can' => 'sites.create',
+        ],
     ],
+    'right_menu' => $right_menu
 
 ];
