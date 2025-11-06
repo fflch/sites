@@ -1,4 +1,3 @@
-@inject('pessoa','Uspdev\Replicado\Pessoa')
 
 <div class="card">
   <div class="card-header"><b>Relação dos sites da FFLCH</b></div>
@@ -29,7 +28,7 @@ Total de sites ainda não aprovados: <b>{{ $sites->where('status','Solicitado')-
               {{$site->dominio.config('sites.dnszone')}}
             @endif
           </td>
-          <td>{{ $pessoa::dump($site->owner)['nompes'] }}</td>
+          <td> {{ $site->responsavel->name ?? '' }} </td>
           <td>{{ $site->categoria }}</td>
           <td>{{ $site->status }}</td>
         </tr>

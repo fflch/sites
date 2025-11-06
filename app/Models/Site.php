@@ -28,6 +28,10 @@ class Site extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function responsavel(){
+        return $this->belongsTo('App\Models\User', 'owner', 'codpes');
+    }
+
     public static function categorias() {
     return [
             'Grupo de estudo',
@@ -45,7 +49,6 @@ class Site extends Model
 
     public static function status() {
         return [
-                'Aprovado - Em Processamento',
                 'Aprovado - Habilitado',
                 'Aprovado - Desabilitado',
                 'Solicitado',

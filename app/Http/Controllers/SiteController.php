@@ -46,17 +46,9 @@ class SiteController extends Controller
         // Executa a query
         $sites = $sites->orderBy('dominio')->paginate(10);
 
-        // Busca o status dos sites no aegir
-
-        foreach($sites as $site){
-            if ($site->status != 'Solicitado'){
-                $site->save();
-            }
-        }
-
         $this->novoToken();
-        $hashlogin = $user = \Auth::user()->temp_token;
-        return view('sites/index', compact('sites','dnszone','hashlogin'));
+        $hashlogin = \Auth::user()->temp_token;
+        return view('sites.index', compact('sites','dnszone','hashlogin'));
     }
 
     private function novoToken(){
@@ -89,13 +81,13 @@ class SiteController extends Controller
     {
         $this->authorize('sites.create');
         $user = \Auth::user();
-
+        
         $request->validate([
-          'dominio'         => ['required', 'unique:sites', new Domain],
-          'categoria'       => ['required'],
-          'justificativa'   => ['required'],
+        'dominio'         => ['required', 'unique:sites', new Domain],
+        'categoria'       => ['required'],
+        'justificativa'   => ['required'],
         ]);
-
+        
         $site = new Site;
         $dnszone = config('sites.dnszone');
         $site->dominio = strtolower($request->dominio);
@@ -211,7 +203,7 @@ class SiteController extends Controller
 
         if (isset($request->aprovar)) {
             $this->authorize('admin');
-            $site->status = 'Aprovado - Em Processamento';
+            $site->status = 'Aprovado - Habilitado';
             $alvo = $site->dominio . $dnszone;
             Mail::queue(new AprovaSiteMail($site));
 
@@ -323,8 +315,11 @@ class SiteController extends Controller
       $dnszone = config('sites.dnszone');
       $alvo = $site->dominio . $dnszone;
 
-      $request->session()->flash('alert-info', 'Desabilitação do site em andamento.');
-      return redirect('/sites');
+      $site->status = "Aprovado - Desabilitado";
+      $site->save();
+
+      $request->session()->flash('alert-info', 'Site desabilitado.');
+      return redirect()->back();
     }
 
     public function enableSite(Request $request, Site $site)
@@ -334,7 +329,10 @@ class SiteController extends Controller
       $dnszone = config('sites.dnszone');
       $alvo = $site->dominio . $dnszone;
 
-      $request->session()->flash('alert-info', 'Habilitação do site em andamento.');
-      return redirect('/sites');
+      $site->status = "Aprovado - Habilitado";
+      $site->save();
+
+      $request->session()->flash('alert-info', 'Site habilitado.');
+      return redirect()->back();
     }
 }

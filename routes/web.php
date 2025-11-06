@@ -22,13 +22,6 @@ use App\Http\Controllers\DomainController;
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::resource('/sites', SiteController::class);
 
-
-# Senha única USP
-Route::get('/login', [LoginController::class, 'redirectToProvider'])->name('login');
-Route::get('/callback', [LoginController::class, 'handleProviderCallback']);
-Route::post('/logout', [LoginController::class, 'logout']);
-Route::get('/logout', [LoginController::class, 'logout']);
-
 Route::post('/sites/{site}/install', [SiteController::class, 'installSite']);
 Route::post('/sites/{site}/disable', [SiteController::class, 'disableSite']);
 Route::post('/sites/{site}/enable', [SiteController::class, 'enableSite']);

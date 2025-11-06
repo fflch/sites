@@ -31,10 +31,6 @@ class AppServiceProvider extends ServiceProvider
         // gates
         Gate::resource('sites', 'App\Policies\SitePolicy');
 
-        Gate::define('admin', function($user){
-            $admins = explode(',',config('sites.admins'));
-            return in_array($user->codpes, $admins);
-        });
     }
 
     /**
