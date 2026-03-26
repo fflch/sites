@@ -290,7 +290,6 @@ class SiteController extends Controller
         if($site) {
             $all = $site->owner . ',' . $site->numeros_usp;
             // verifica se o usuário é admin ou número usp em questão pode fazer logon no site
-            $all = $site->owner . ',' . $site->numeros_usp . ',' . config('sites.admins');
             if( $user->level === 'admin' || in_array($request->codpes, explode(",", $all)) ) {
                 return response()->json([true,$user->email]);
             }
