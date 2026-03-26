@@ -81,13 +81,13 @@ class SiteController extends Controller
     {
         $this->authorize('sites.create');
         $user = \Auth::user();
-        
+
         $request->validate([
         'dominio'         => ['required', 'unique:sites', new Domain],
         'categoria'       => ['required'],
         'justificativa'   => ['required'],
         ]);
-        
+
         $site = new Site;
         $dnszone = config('sites.dnszone');
         $site->dominio = strtolower($request->dominio);
@@ -288,9 +288,10 @@ class SiteController extends Controller
         $dominio = str_replace($remover,'',$request->site);
         $site = Site::where('dominio',$dominio)->first();
         if($site) {
-            // verifica se o número usp em questão pode fazer logon no site
+            $all = $site->owner . ',' . $site->numeros_usp;
+            // verifica se o usuário é admin ou número usp em questão pode fazer logon no site
             $all = $site->owner . ',' . $site->numeros_usp . ',' . config('sites.admins');
-            if(in_array($request->codpes,explode(",",$all))) {
+            if( $user->level === 'admin' || in_array($request->codpes, explode(",", $all)) ) {
                 return response()->json([true,$user->email]);
             }
             return response()->json([false,'Usuário sem permissão']);
