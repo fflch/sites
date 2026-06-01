@@ -15,7 +15,8 @@ class IndexTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->assertSee('Sites');
+                ->assertSee('Sites')
+                ->assertSee('Total de sites existentes');
         });
     }
 }
