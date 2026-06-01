@@ -1,0 +1,59 @@
+services:
+  sites:
+    build: .
+    image: sites:latest
+    container_name: sites
+    ports:
+      - "8000:80"
+    depends_on:
+      - mariadb
+    networks:
+      - sites-network
+    volumes:
+      - ./:/var/www/html
+    environment:
+      HOME: /tmp
+    user: "${UID:-1000}:${GID:-1000}"
+
+  mariadb:
+    image: mariadb:11
+    container_name: sites_mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: sites
+      MYSQL_USER: sites
+      MYSQL_PASSWORD: sites
+      MYSQL_ROOT_PASSWORD: sites
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - sites-network
+    ports:
+      - "3306:3306"
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: sites_selenium
+    ports:
+      - "7900:7900" # VNC (pra ver o browser rodando)
+    networks:
+      - sites-network
+    shm_size: 2gb
+  
+  senhaunica-faker:
+    image: uspdev/senhaunica-faker
+    container_name: sites_senhaunica-faker
+    ports:
+      - "3141:3141"
+    environment:
+          - APP_URL=http://auth.local:3141
+    networks:
+      sites-network:
+        aliases:
+          - auth.local
+
+networks:
+  sites-network:
+
+volumes:
+  mariadb_data:
