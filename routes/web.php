@@ -26,6 +26,7 @@ Route::post('/sites/{site}/install', [SiteController::class, 'installSite']);
 Route::post('/sites/{site}/disable', [SiteController::class, 'disableSite']);
 Route::post('/sites/{site}/enable', [SiteController::class, 'enableSite']);
 Route::get('/sites/{site}/changeowner', [SiteController::class, 'changeOwner']);
+Route::get('/sites/{site}/changedns', [SiteController::class, 'changeDns']);
 Route::get('/sites/{site}/novoadmin', [SiteController::class, 'novoAdmin']);
 
 Route::get('check', [SiteController::class, 'check']);

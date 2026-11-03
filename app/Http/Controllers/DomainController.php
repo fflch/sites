@@ -12,20 +12,19 @@ class DomainController extends Controller
     public function __invoke()
     {
         $sites = Site::orderBy('dominio', 'ASC')
-            ->select('dominio')
+            ->select('dominio', 'dns')
             ->toBase()
             ->get();
         $content = '';
         foreach( $sites as $site ) {
-            # hotfix para problema php: Thiago
-            if($site->status == "Aprovado - Habilitado"){
-                $suffix =  config('sites.dnszone') . '. IN A ' . config('sites.webserver_aprovado');
-            } else {
-                $suffix =  config('sites.dnszone') . '. IN A ' . config('sites.webserver_nao_aprovado');
-            }
+            $dns = $site->dns ?? config('sites.dns');
+            $suffix =  config('sites.dnszone') . '. IN A ' . $dns;
             if ( $site->dominio <> 'www') {
                 $content .= $site->dominio . $suffix . PHP_EOL;
                 $content .= 'www.' . $site->dominio . $suffix . PHP_EOL;
+            } else {
+                $content .= mb_substr($suffix, 1) . PHP_EOL;
+                $content .= $site->dominio . $suffix . PHP_EOL;
             }
         }
 
