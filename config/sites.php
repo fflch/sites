@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'dnszone' => env('DNSZONE', false),
+    'dnszone' => env('DNSZONE', 'site.local.br'),
     'unidades_usp' => env('UNIDADES_USP',false),
     'deploy_secret_key' => env('DEPLOY_SECRET_KEY', false),
     'admins' => env('SENHAUNICA_ADMINS'),
-    'webserver' => env('WEBSERVER', '192.168.0.1'),
+    'dns' => env('DNS', '192.168.0.1'),
 ];

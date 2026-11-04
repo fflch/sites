@@ -10,7 +10,10 @@
         {{ $site->status }}
     @endif
   <br>
-  
+  <b>DNS:</b>
+      @can('admin')
+          {{ $site->dns ?? config('sites.dns') }}
+      @endcan
 </td>
 
 <td>
@@ -63,6 +66,10 @@
 
         @can('sites.update',$site)
             <li class="list-group-item"><a href="/sites/{{ $site->id }}/changeowner" class="">Mudar responsável </a></li>
+        @endcan
+
+        @can('admin')
+            <li class="list-group-item"><a href="/sites/{{ $site->id }}/changedns" class="">Editar DNS </a></li>
         @endcan
 
         @can('admin')

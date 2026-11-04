@@ -12,15 +12,19 @@ class DomainController extends Controller
     public function __invoke()
     {
         $sites = Site::orderBy('dominio', 'ASC')
-            ->select('dominio')
+            ->select('dominio', 'dns')
             ->toBase()
             ->get();
         $content = '';
-        $suffix =  config('sites.dnszone') . '. IN A ' . config('sites.webserver');
         foreach( $sites as $site ) {
+            $dns = $site->dns ?? config('sites.dns');
+            $suffix =  config('sites.dnszone') . '. IN A ' . $dns;
             if ( $site->dominio <> 'www') {
                 $content .= $site->dominio . $suffix . PHP_EOL;
                 $content .= 'www.' . $site->dominio . $suffix . PHP_EOL;
+            } else {
+                $content .= mb_substr($suffix, 1) . PHP_EOL;
+                $content .= $site->dominio . $suffix . PHP_EOL;
             }
         }
 
