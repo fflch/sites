@@ -80,7 +80,7 @@
                     <form method="POST" action="/sites/{{ $site->id }}">
                     @csrf
                     @method('delete')
-                    <button type="submit" class="delete-item btn btn-danger" onClick="return confirm('Tem certeza que deseja excluir esse site?')">Deletar <i class="fas fa-trash-alt"></i></button>
+                    <button data-delete="{{ $site->id }}" type="submit" class="delete-item btn btn-danger" onClick="return confirm('Tem certeza que deseja excluir esse site?')">Deletar <i class="fas fa-trash-alt"></i></button>
                     </form>
                 </li>          
             @endif

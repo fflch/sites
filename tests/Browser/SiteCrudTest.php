@@ -37,7 +37,7 @@ class SiteCrudTest extends DuskTestCase
                 ->press('Enviar')
                 ->assertSee('justificativa alterada.');
 
-            $browser->press('Deletar')
+            $browser->click("button[data-delete='{$site_id->id}']")
                 ->pause(2000)
                 ->acceptDialog()
                 ->pause(2000)

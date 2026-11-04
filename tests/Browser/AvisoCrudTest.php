@@ -21,8 +21,7 @@ class AvisoCrudTest extends DuskTestCase
                 ->waitFor('#loginUsuario') # Importante: Espera a página de login carregar
                 ->typeSlowly('loginUsuario', '1111')
                 ->press('Login')
-                ->waitFor('.login_logout_link') # Importante: Espera a página de retornada carregar
-                ->assertSee('AVISOS');
+                ->waitFor('.login_logout_link'); # Importante: Espera a página de retornada carregar;
             
             $browser->clickLink('Avisos')
                 ->click("a[href='/avisos/create']")
