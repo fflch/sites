@@ -94,6 +94,7 @@ class SiteController extends Controller
         $site->categoria = $request->categoria;
         $site->justificativa = $request->justificativa;
         $site->status = 'Solicitado';
+        $site->dns = $request->filled('dns') ? trim($request->dns) : null;
 
         $site->owner = $user->codpes;
         $site->save();
@@ -158,6 +159,15 @@ class SiteController extends Controller
             return redirect("/sites/");
         }
 
+        if (isset($request->dns)) {
+            $request->validate([
+              'dns' => ['nullable', 'ip'],
+            ]);
+
+            $site->dns = trim($request->dns) === '' ? null : trim($request->dns);
+            $request->session()->flash('alert-info','DNS alterado com sucesso');
+        }
+
         if (isset($request->categoria) || isset($request->justificativa)) {
 
             $request->validate([
@@ -168,6 +178,12 @@ class SiteController extends Controller
             $site->categoria = $request->categoria;
             $site->justificativa = $request->justificativa;
             $request->session()->flash('alert-info','Site atualizado com sucesso');
+        }
+
+        if ($request->filled('dns')) {
+            $site->dns = trim($request->dns);
+        } elseif ($request->has('dns')) {
+            $site->dns = null;
         }
 
         if (isset($request->novoadmin)) {
@@ -233,6 +249,12 @@ class SiteController extends Controller
     {
         $this->authorize('sites.update',$site);
         return view('sites/changeowner', compact('site'));
+    }
+
+    public function changeDns(Site $site)
+    {
+        $this->authorize('admin');
+        return view('sites/changedns', compact('site'));
     }
 
     public function novoAdmin(Site $site)
