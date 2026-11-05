@@ -41,7 +41,7 @@ class SiteCrudTest extends DuskTestCase
                 ->pause(2000)
                 ->acceptDialog()
                 ->pause(2000)
-                ->assertNotSee('siteteste.local.fflch.usp.br');
+                ->assertDontSee('siteteste.local.fflch.usp.br');
         });
     }
 }
