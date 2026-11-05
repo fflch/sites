@@ -28,11 +28,11 @@ jobs:
           echo "GID=$(id -g)" >> $GITHUB_ENV
 
       - name: Build and start containers
-        run: docker compose up -d --build
+        run: docker compose up -d --build --wait
 
       - name: Wait for MariaDB
         run: |
-          for i in {1..40}; do
+          for i in {1..60}; do
             if docker compose exec -T mariadb mariadb -u${{ env.SERVICE_NAME }} -p${{ env.SERVICE_NAME }} -e "SELECT 1;" &> /dev/null; then
               echo "MariaDB is ready"
               exit 0
@@ -40,6 +40,19 @@ jobs:
             echo "Waiting for MariaDB..."
             sleep 2
           done
+
+      - name: Wait for Senhaunica Faker
+        run: |
+          for i in {1..60}; do
+            if curl -s -f http://auth.local:3141 > /dev/null; then
+              echo "Senhaúnica Faker está pronto!"
+              exit 0
+            fi
+            echo "Aguardando Senhaúnica Faker..."
+            sleep 2
+          done
+          echo "Erro: Senhaúnica Faker não respondeu a tempo."
+          exit 1
 
       - name: Install Composer dependencies
         run: docker compose exec -T ${{ env.SERVICE_NAME }} composer install --no-interaction --prefer-dist
