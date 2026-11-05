@@ -28,7 +28,7 @@ class SiteCrudTest extends DuskTestCase
                 ->select('categoria', 'Laboratório')
                 ->press('Enviar')
                 ->pause(2000)
-                ->assertSee('siteteste.local.fflch.usp.br');
+                ->assertSee('siteteste.fflch.usp.br');
 
             $site_id = \App\Models\Site::select('id')->latest()->first();
 
