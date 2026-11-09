@@ -48,14 +48,16 @@
 
 <td>
     <ul class="list-group">
-        @if(config('app.env') == 'production')
+        @if(\App::environment('production'))
+          @php($protocol = 'https')
           @php($port = '')
         @else
+          @php($protocol = 'http')
           @php($port = ':8088')
         @endif
         @if($site->status != "Solicitado" && $site->status != "Aprovado - Desabilitado")
           <li class="list-group-item">
-            <a href="http://{{ $site->dominio }}{{ config('sites.dnszone') }}{{$port}}/loginbytoken/?temp_token={{$hashlogin}}&codpes={{ Auth::user()->codpes }}" class="" target="_blank">
+            <a href="{{ $protocol }}://{{ $site->dominio }}{{ config('sites.dnszone') }}{{$port}}/loginbytoken/?temp_token={{$hashlogin}}&codpes={{ Auth::user()->codpes }}" class="" target="_blank">
               Logon <i class="fas fa-sign-in-alt"></i>
             </a></li>
         @endif
