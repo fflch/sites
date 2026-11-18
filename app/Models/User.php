@@ -30,4 +30,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Lidar com erro do cookie "remember me" a partir do Laravel 12.72
+     */
+    public function getAuthPassword()
+    {
+        return (string) parent::getAuthPassword();
+    }
 }
